@@ -18,6 +18,8 @@ set -x PATH ~/instantclient_12_1 $PATH
 
 set -x PATH ~/anaconda3/bin $PATH
 
+set -x PATH ~/.cargo/bin $PATH
+
 set -x JAVA_HOME /Library/Java/Home
 #set -x JAVA_HOME /System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
 #set -x JAVA_HOME /Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home
@@ -43,9 +45,27 @@ alias sshconfig 'vi ~/.ssh/config'
 
 fish_vi_key_bindings
 
+# Make directories listed with ls readable
+set -Ux LSCOLORS gxfxbEaEBxxEhEhBaDaCaD
+
 function fish_mode_prompt
 end
 
 if test -e ~/.pw
   source ~/.pw
+end
+
+function git_cloc --description "List lines of code by language in a remote git repo"
+    git clone --depth 1 $argv[1] temp-linecount-repo
+    printf "('temp-linecount-repo' will be deleted automatically)\n\n\n"
+    
+    if set -q argv[2]
+        set cloc_cmd "cloc temp-linecount-repo --exclude-dir=$argv[2]"
+    else
+        set cloc_cmd "cloc temp-linecount-repo"
+    end
+
+    eval $cloc_cmd
+
+    rm -rf temp-linecount-repo
 end
