@@ -76,15 +76,6 @@ symlinkifne .tmux.conf
 symlinkifne .vim
 symlinkifne .vimrc
 
-SBT_PLUGINS_DIR="$HOME/.sbt/0.13/plugins"
-if [[ ! -d "$SBT_PLUGINS_DIR" ]]; then
-  mkdir -p "$SBT_PLUGINS_DIR"
-fi
-
-if [[ ! -L "$SBT_PLUGINS_DIR/plugins.sbt" ]]; then
-  ln -s ~/.dotfiles/.sbt/0.13/plugins/plugins.sbt "$SBT_PLUGINS_DIR/plugins.sbt"
-fi
-
 bot "Create iterm profile symlink"
 
 ITERM_PROFILE_PATH="~/Library/Application\ Support/iTerm2/DynamicProfiles/iterm_profile"
@@ -108,8 +99,8 @@ bot "now it's time to set up your shell"
 read -r -p "Which shell would you like to use? [FISH|zsh]" response
 if [[ $response =~ ^(zsh|ZSH)$ ]]; then
   ./install-zsh.sh
-else 
+else
   ./install-fish.sh
-fi  
+fi
 
 bot "Woot! All done. Restart your terminal app."
